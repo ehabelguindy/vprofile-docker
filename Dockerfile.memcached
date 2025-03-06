@@ -1,0 +1,5 @@
+# Memcached - In-memory Caching System
+FROM memcached:latest  # Use latest Memcached image
+
+# Start Memcached allowing remote access
+CMD ["memcached", "-u", "memcached", "-l", "0.0.0.0", "-p", "11211"]

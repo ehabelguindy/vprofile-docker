@@ -1,0 +1,16 @@
+# RabbitMQ - Message Broker
+FROM rabbitmq:3.8-management  # Use RabbitMQ 3.8 with management plugin
+
+# Add user 'test' with password 'test'
+RUN rabbitmqctl add_user test test && \
+    rabbitmqctl set_user_tags test administrator && \
+    rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+
+# Enable RabbitMQ Management Plugin
+RUN rabbitmq-plugins enable rabbitmq_management
+
+# Expose RabbitMQ default ports (5672 for AMQP messaging, 15672 for web UI)
+EXPOSE 5672 15672
+
+# Start RabbitMQ Server when the container runs
+CMD ["rabbitmq-server"]

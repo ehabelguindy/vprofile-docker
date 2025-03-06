@@ -1,0 +1,22 @@
+# Use official Nginx as the base image
+FROM nginx:latest
+
+# Remove the default Nginx configuration
+RUN rm -rf /etc/nginx/conf.d/default.conf
+
+# Create the custom Nginx configuration inside /conf.d/
+RUN echo 'upstream vproapp { \
+    server app01:8080; \
+    } \
+    server { \
+    listen 80; \
+    location / { \
+    proxy_pass http://vproapp; \
+    } \
+    }' > /etc/nginx/conf.d/vproapp.conf
+
+# Expose Nginx port
+EXPOSE 80
+
+# Start Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]
